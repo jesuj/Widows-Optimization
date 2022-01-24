@@ -2,11 +2,14 @@
 :: tambien se puede agregar un mensaje
 @echo off
 title Windows Optimization 
+:inicio
 :: mode es para el tamaño de la sell 
 :: x=120, y=50
 mode 100,35
-:: variables de entorno son se colocan entre los porcentaje
-:: %userprofile es la ruta del usuario
+::Donde
+::/Q: modo silencioso, no solicitará confirmación para eliminar carpetas.
+::/S: ejecuta la operación en todas las carpetas de la ruta seleccionada.
+::por lo tanto puedes usar para eliminar multiples carpetas y todo su contenido:
 :: archivos temporales eliminar
 
 RMDIR /Q/S C:\Windows\Temp
@@ -14,7 +17,6 @@ RMDIR /Q/S %TEMP%
 :: eliminar los  archivos en prefetch
 RMDIR /Q/S C:\Windows\Prefetch
 
-:inicio
 rem limpiar la consola
 cls
 rem logo de oni :D
@@ -55,20 +57,32 @@ set /p op=Digite una opcion(1/2):
 if %op%==1 goto uno 
 if %op%==2 goto dos 
 pause > nul
-
+exit
 
 :uno
 cls
+color e 
+mode 70,20
 :: abrir las carpetas donde eliminamos las  pruebas
 explorer.exe C:\Windows\Temp
 explorer.exe %TEMP%
 explorer.exe C:\Windows\Prefetch
+echo Presione cual quier tecla para cerrar las carpetasabiercas.......
+set op=3
+pause > nul
+:: para listar todos los procesos de las carpetas
+:: tasklist /V /FI "IMAGENAME eq explorer.exe"
+:: para cerrar las carpetas lo haremos atraves del su titulo
+:: taskkill /im explorer.exe /fi "windowtitle eq <window name>"
+taskkill /im explorer.exe /fi "windowtitle eq Temp"
+taskkill /im explorer.exe /fi "windowtitle eq Prefetch"
 goto inicio
-pause  
 
 
 :dos 
 cls
+color e 
+mode 70,20
 start eventvwr
 echo ====================================================
 echo =                                                  =
